@@ -8,3 +8,4 @@ services:
     environment:
       URL: "http://prem1.di.fm:80/chillstep_hi?69040976d1ea73ad"
       USER_AGENT: "Don't worry about it :)"
+      OUTPUT_DIR: "/songs"

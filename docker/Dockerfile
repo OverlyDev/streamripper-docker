@@ -45,11 +45,18 @@ RUN apt autoclean && apt autoremove -qy && apt-get clean && \
 	(( find /usr/share/doc -depth -type f ! -name copyright|xargs rm || true )) && \
 	(( find /usr/share/doc -empty|xargs rmdir || true ))
 
-WORKDIR /songs
+# create abc user and make folders
+RUN useradd -u 911 -U -d /config -s /bin/bash abc && \
+	usermod -G users abc && \
+	mkdir -p /songs /ripper
+
+WORKDIR /ripper
 
 COPY entrypoint.sh /scripts/entrypoint.sh
 
-RUN chmod +x /scripts/entrypoint.sh
+COPY rip.sh /scripts/rip.sh
+
+RUN chmod +x /scripts/entrypoint.sh /scripts/rip.sh
 
 ENTRYPOINT ["/bin/bash", "-c", "exec /scripts/entrypoint.sh"]
 
